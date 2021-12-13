@@ -6,11 +6,13 @@
 #    By: snadji-h <marvin@42lausanne.ch>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/25 19:47:41 by snadji-h          #+#    #+#              #
-#    Updated: 2021/12/13 17:37:47 by snadji-h         ###   ########.fr        #
+#    Updated: 2021/12/13 18:02:34 by snadji-h         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SRCS		= so_long.c mlx_setup.c so_long_map.c so_long_image.c so_long_get_next.c so_long_hook.c ft_itoa.c so_long_everything.c so_long_enemie.c
+
+MLX			= mimilbx/libmlx.a
 
 OBJS		= ${SRCS:.c=.o}
 
@@ -25,11 +27,14 @@ RM 			= rm -f
 CFLAGS		= -Wall -Wextra -Werror -MD
 all:		${NAME}
 
-${NAME}:	${OBJS}
+${NAME}:	${OBJS} ${MLX}
 			gcc ${OBJS} minilibx/libmlx.a -framework OpenGL -framework AppKit -o ${NAME}
 
+${MLX}:
+			make -C minilibx/
 clean:
-			${RM} ${OBJS} ${DEPS}
+			${RM} ${OBJS} ${DEPS} 
+			make clean -C minilibx
 
 fclean:		clean
 			${RM} ${NAME}
