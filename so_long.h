@@ -6,7 +6,7 @@
 /*   By: snadji-h <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/29 18:01:36 by snadji-h          #+#    #+#             */
-/*   Updated: 2021/12/09 14:42:46 by snadji-h         ###   ########.fr       */
+/*   Updated: 2021/12/13 17:37:44 by snadji-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ typedef enum e_obj
 	start = 'P',
 	floor = '0',
 	object = 'C',
-	finish = 'E'
+	finish = 'E',
+	enemy = 'D'
 }	t_obj;
 
 typedef struct s_map
@@ -40,6 +41,13 @@ typedef struct s_map
 	int		height;
 	t_obj	*tab;
 }	t_map;
+
+typedef struct s_enemy
+{
+	int		eposx;
+	int		eposy;
+	int		direction;
+}	t_enemy;
 
 typedef struct s_image
 {
@@ -61,10 +69,23 @@ typedef struct s_state
 	t_image	object;
 	t_image	finish;
 	t_image	floor;
+	t_image	enemy_image;
+	t_image	enemy2_image;
+	t_enemy	enemy;
+	t_enemy	enemy2;
 	t_map	map;
 }	t_state;
 
-char*	ft_itoa(int nb);
+void	print_everything(t_state *state);
+void	enemy_start(t_state *state);
+void	enemie(t_state *state);
+void	game_over(t_state *state);
+int		animation(t_state *state);
+void	print_enemy(t_state *state);
+void	print_player(t_state *state);
+
+void	map(t_state *state);
+char	*ft_itoa(int nb);
 int		fill_map(char *str, t_map *map);
 char	*read_map(char *path);
 int		mouse_hook(int button, int x, int y, t_state *state);

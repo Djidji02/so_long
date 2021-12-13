@@ -6,7 +6,7 @@
 /*   By: snadji-h <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 19:41:54 by snadji-h          #+#    #+#             */
-/*   Updated: 2021/12/08 21:02:42 by snadji-h         ###   ########.fr       */
+/*   Updated: 2021/12/13 17:37:45 by snadji-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,7 @@ void	key_code(int keycode, t_state *state)
 	if (get_map(state->posx, state->posy, state) == object)
 		set_map(state->posx, state->posy, state);
 }
-/*
- *	Nettoyer la window avant de print
- */
+//	Nettoyer la window avant de print + bonus
 
 void	map(t_state *state)
 {
@@ -63,36 +61,28 @@ void	map(t_state *state)
 	print_map(state);
 	if (nb)
 	{
-		mlx_string_put(state->mlx, state->win, state->posx * 16, state->posy * 16, 0x00111111, nb);
+		mlx_string_put(state->mlx, state->win, state->posx * 32,
+			state->posy * 32, 0x00111111, nb);
 		free (nb);
 	}
 }
+// checker si plus d'objet
 
 int	key_hook(int keycode, t_state *s)
 {
 	int	i;
-	int	j;
 	int	obj;
 
 	key_code(keycode, s);
-	j = 0;
 	obj = 0;
-	while (j < s->map.height)
-	{
-		i = 0;
-		while (i < s->map.width)
-		{
-			if (get_map(i, j, s) == object)
-				obj++;
-			i++;
-		}
-		j++;
-	}
-	if (obj == 0)
-		if (get_map(s->posx, s->posy, s) == finish)
-			exit_hook(s);
-	map(s);
-	mlx_put_image_to_window(s->mlx, s->win, s->player.image,
-		s->posx * s->player.width, s->posy * s->player.height);
+	i = 0;
+	while (i < s->map.width * s->map.height)
+		obj += (s->map.tab[i++] == object);
+	if (obj == 0 && get_map(s->posx, s->posy, s) == finish)
+		exit_hook(s);
+	game_over(s);
+	enemie(s);
+	game_over(s);
+	print_everything(s);
 	return (0);
 }

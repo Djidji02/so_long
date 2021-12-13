@@ -6,7 +6,7 @@
 /*   By: snadji-h <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 21:32:29 by snadji-h          #+#    #+#             */
-/*   Updated: 2021/12/08 18:51:02 by snadji-h         ###   ########.fr       */
+/*   Updated: 2021/12/13 17:37:42 by snadji-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,12 @@
 
 t_obj	get_map(int x, int y, t_state *state)
 {
-	if (x > 0 && x < state->map.width && y > 0 && y < state->map.height)
+	if (x >= 0 && x < state->map.width && y >= 0 && y < state->map.height)
 		return (state->map.tab[y * state->map.width + x]);
 	else
 		return (wall);
 }
+// imprimer du sol en dessous
 
 void	set_map(int x, int y, t_state *state)
 {
@@ -77,6 +78,34 @@ void	player_start(t_state *state)
 			{
 				state->posx = i;
 				state->posy = j;
+			}
+			i++;
+		}
+		j++;
+	}
+}
+
+/*
+ * Positionner l'ennemie  au depart
+ */
+
+void	enemy_start(t_state *state)
+{
+	int	i;
+	int	j;
+
+	state->enemy.eposy = -1;
+	state->enemy.eposx = -1;
+	j = 0;
+	while (j < state->map.height)
+	{
+		i = 0;
+		while (i < state->map.width)
+		{
+			if (get_map(i, j, state) == enemy)
+			{
+				state->enemy.eposx = i;
+				state->enemy.eposy = j;
 			}
 			i++;
 		}

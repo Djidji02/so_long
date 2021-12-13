@@ -6,19 +6,14 @@
 /*   By: snadji-h <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/25 19:29:41 by snadji-h          #+#    #+#             */
-/*   Updated: 2021/12/08 20:04:46 by snadji-h         ###   ########.fr       */
+/*   Updated: 2021/12/13 17:37:50 by snadji-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minilibx/mlx.h"
-#include <stdlib.h>
-#include <stdio.h>
 #include "so_long.h"
-#include <fcntl.h>
-#include <unistd.h>
-/*
- * obtenir largeur/longeur map
- */
+
+// obtenir largeur/longeur map 
+
 int	size_map(char *str, t_map *map)
 {
 	int	i;
@@ -40,9 +35,24 @@ int	size_map(char *str, t_map *map)
 	}
 	return (1);
 }
-/*
- *
- */
+
+int	valid_map(t_state *state)
+{
+	int	i;
+	int	obj;
+
+	i = 0;
+	while (i < state->map.width * state->map.height)
+	{
+		obj = state->map.tab[i];
+		if (!(obj == wall || obj == finish || obj == floor
+				|| obj == enemy || obj == start || obj == object))
+			return (0);
+		i++;
+	}
+	return (1);
+}
+// Verifier les murs
 
 int	init_check_map(t_state *state)
 {
@@ -66,6 +76,7 @@ int	init_check_map(t_state *state)
 	}
 	return (1);
 }
+// Verifier une sortie/ un depart
 
 int	check_map(t_state *state)
 {
@@ -96,13 +107,13 @@ int	main(int ac, char **av)
 	char	*str;
 	t_state	state;
 
-	str = read_map(av[1]);
 	state = (t_state){0};
 	state.mlx = mlx_init();
 	if (ac != 2)
 		return (printf("Revoie tes arguments fdp \n"), 0);
+	str = read_map(av[1]);
 	if (!size_map(str, &state.map) || !fill_map(str, &state.map)
-		|| !check_map(&state))
+		|| !valid_map(&state) || !check_map(&state))
 		return (printf("Error\n"), 0);
 	mlx_setup(&state);
 }
