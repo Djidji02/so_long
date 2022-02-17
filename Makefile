@@ -6,7 +6,7 @@
 #    By: snadji-h <marvin@42lausanne.ch>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/25 19:47:41 by snadji-h          #+#    #+#              #
-#    Updated: 2021/12/13 18:02:34 by snadji-h         ###   ########.fr        #
+#    Updated: 2022/01/25 15:42:11 by snadji-h         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,7 @@ CC			= gcc
 RM 			= rm -f
 
 CFLAGS		= -Wall -Wextra -Werror -MD
+
 all:		${NAME}
 
 ${NAME}:	${OBJS} ${MLX}

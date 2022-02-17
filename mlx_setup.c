@@ -40,10 +40,7 @@ void	mlx_setup(t_state *state)
 	player_start(state);
 	enemy_start(state);
 	print_everything(state);
-	printf("1\n");
 	mlx_hook(state->win, 17, 0, exit_hook, state);
-	printf("2\n");
 	mlx_hook(state->win, 2, 0, key_hook, state);
-	printf("4\n");
 	mlx_loop(state->mlx);
 }
